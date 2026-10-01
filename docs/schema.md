@@ -2,6 +2,8 @@
 
 Source of truth for the database schema. Update this whenever a table, column, or policy changes in Supabase, don't rely on the dashboard alone as the record.
 
+Applied SQL: `supabase/migrations/0001_init.sql`.
+
 ## products
 Public menu, read-only from the app.
 | column      | type      | notes                              |
@@ -41,4 +43,12 @@ Line items per order. Snapshots unit_price at order time so later menu price cha
 RLS: a user may SELECT/INSERT rows where the parent order's user_id = auth.uid() (via a policy that checks EXISTS against orders).
 
 ## Status log
-- (empty — first entries go here as tables are actually created in Supabase)
+- 2026-10-01 — User manually verified the products table matches the reported seed data and approved marking the schema task Done.
+- 2026-10-01 — Applied `0001_init.sql` through the Supabase plugin to `hng-shop` (`kojdjmchgcqeqbnonruk`). Confirmed three tables, RLS on every table, five policies, explicit client grants, constraints, and all six exact mockup menu items with prices in kobo. Transactional RLS allow/deny tests passed; test fixtures were rolled back.
+
+## Initial migration details
+- All three tables enable RLS. Client roles receive only the grants described above; `service_role` retains full server-side access.
+- `price`, `subtotal`, and `unit_price` reject negative values; `quantity` must be positive.
+- Indexes: `orders(user_id)`, `order_items(order_id)`, `order_items(product_id)`.
+- Timestamps use `timestamp` as documented. Foreign keys use default NO ACTION deletion behavior.
+- Seed: the six exact menu items from `docs/mockup.html`, with naira multiplied by 100 for kobo, lowercase category tags, and only The Original Beef Roll featured.
