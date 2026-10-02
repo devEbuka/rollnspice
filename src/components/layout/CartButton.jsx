@@ -10,6 +10,7 @@ export default function CartButton() {
         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M2 3h3l3 13h11l3-10H6" /><circle cx="9" cy="21" r="1" /><circle cx="19" cy="21" r="1" /></svg>
         <span aria-hidden="true" className="cart-label">Cart</span>
         <span aria-hidden="true" className="cart-count">({count})</span>
+        <span aria-hidden="true" className="cart-mobile-count">{count > 99 ? "99+" : count}</span>
       </button>
       <span role="status" className="sr-only">Cart contains {count} {count === 1 ? "item" : "items"}.</span>
     </>

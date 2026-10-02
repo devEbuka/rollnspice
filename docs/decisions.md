@@ -1,5 +1,10 @@
 # Decisions
 
+## 2026-10-02 — Visible mobile cart quantity
+
+- Mobile cart now shows an orange count badge using the same summed quantity as desktop. It displays zero for an empty cart and caps the compact visible value at 99+; the accessible label and live announcement retain the exact count. Desktop keeps its existing parenthesized count and hides the mobile badge.
+- Verified against the real menu at 320px: adding an item changed 2 to 3, stepper increase changed 3 to 4, and removal restored 2. No horizontal overflow or browser warnings/errors; desktop count remains unchanged. Test additions removed, temporary preview stopped, lint/build passed. No schema, dependencies, environment variables, or commits changed.
+
 ## 2026-10-02 — Mobile cart beside account controls
 
 - Supersedes the earlier mobile hamburger-cart placement. Header actions group the cart and auth controls together; below 561px the cart shows only its icon in a 44px button beside the initials or sign-in button. Desktop retains its label and visible count. The accessible label and live announcement still include the item count on mobile.

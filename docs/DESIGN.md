@@ -9,7 +9,7 @@ Approved reference: [street-food UI mockup](approved-ui-mockup.png), approved by
 - Generated food photographs in public/images are illustrative brand assets, not photographs supplied by the shop. The hero is a transparent cutout; menu photos are decorative because item names/descriptions supply their meaning.
 
 ## Layout
-- Sticky wordmark/header with desktop navigation and native disclosure navigation on small screens. Cart sits beside account controls and shows only its icon on small screens, with item count retained in its accessible label. Auth state, cart count, and Orders link use existing behavior.
+- Sticky wordmark/header with desktop navigation and native disclosure navigation on small screens. Cart sits beside account controls and shows its icon with a quantity badge on small screens, with the full item count retained in its accessible label. Auth state, cart count, and Orders link use existing behavior.
 - Two-column desktop hero: oversized BIG FLAVOUR. NO SHORTCUTS. heading, short copy/CTA, food photograph and lime sticker. Mobile stacks copy, food, then CTA.
 - Static charcoal brand strip: Flame grilled / Hand rolled / Lagos loved. No moving marquee.
 - Rounded menu cards with photographs, exact database names/descriptions/prices, and orange plus buttons with Add to cart labels. Featured treatment is driven solely by the featured column.
