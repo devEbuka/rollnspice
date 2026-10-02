@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-10-02 — Project README
+
+- Replaced the create-next-app starter README with documentation matching the current implementation: local npm setup, Node requirement, public/server-only variable boundaries, migration order, Google OAuth redirects, US Mailgun setup and sandbox authorized recipients, routes, regression commands, and manual checks. The reserved Supabase secret key is explicitly not required by current runtime flows.
+- The live link is labelled Pending Vercel deployment, since no production URL has been verified. Adding the verified URL is now part of the deployment task. README documentation is Done under the approved plan.
+- Checked local Markdown links and the file length (under 150 lines); lint and production build passed. Only README.md, TASKS.md, and this decision record changed. No application, schema, dependency, environment variable, preview, or commit was added.
+
 ## 2026-10-02 â€” Order history
 
 - The user confirmed the requested authenticated history checks with "Verified." This resolves the pending browser verification below; order history is Done. Only documentation/task status changed in this completion update, so previously passing lint/build results still apply. No commit was made.

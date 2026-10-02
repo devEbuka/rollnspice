@@ -3,10 +3,10 @@
 ## In progress
 
 ## Up next
-- [ ] README with setup instructions and live link
-- [ ] Deploy to Vercel (add env vars there too)
+- [ ] Deploy to Vercel (add env vars there too; add verified live URL to README)
 
 ## Done
+- [x] README with setup instructions � project setup, env/security boundaries, OAuth, Mailgun, commands and routes documented; lint/build pass; verified live URL to be added during deployment
 - [x] Order history: authenticated /orders page with own orders, saved line items, and header link — lint/build and signed-out protection pass; authenticated history manually verified by the user
 - [x] Accessibility pass: keyboard access, aria-labels, contrast (per DESIGN.md) — keyboard menu/cart/sign-in checks, 320px layout, text contrast, lint/build pass; user verified signed-in checkout focus and keyboard flow
 - [x] Mailgun integration: send confirmation email server-side after a successful order — 13 regression tests, lint/build, and browser-secret scan pass; user confirmed delivery works after correcting the Mailgun domain and sender email
