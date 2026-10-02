@@ -1,5 +1,25 @@
 # Decisions
 
+## 2026-10-02 — Order history
+
+- The user confirmed the requested authenticated history checks with "Verified." This resolves the pending browser verification below; order history is Done. Only documentation/task status changed in this completion update, so previously passing lint/build results still apply. No commit was made.
+
+- Added authenticated `/orders` and an Orders link shown in the header only when signed in. Signed-out visitors use the existing sign-in/internal-return-path flow to return to history (including its page parameter).
+- Read orders and nested line items through the existing request-scoped Supabase server helper, filtering by the server-verified user's ID. Existing ownership RLS and authenticated SELECT privileges remain in place; no secret key, client-supplied identity, database migration, or new policy is involved.
+- Show 20 orders per page, newest created_at first with ID as a stable tie-breaker. Fetch one extra order to decide whether Older orders is available; Newer orders returns to the preceding page. Invalid page values default to page one. Empty pages and database failures show clear messages; retry performs a fresh page request.
+- Receipts display the complete reference, status, quantity, saved unit_price, line total, saved subtotal, and instructions. Names come from the current product record because the existing schema snapshots prices only; unavailable names have a fallback. Confirmed database timezone UTC; timezone-free timestamps are interpreted as UTC and displayed explicitly in Africa/Lagos. Invalid dates show Date unavailable.
+- Live database checks confirmed history RLS and authenticated order/item read privileges. The anonymous Data API query was denied as expected. Browser verification confirmed `/orders` redirects to `/sign-in?next=%2Forders`; signed-in history remains pending the user's manual verification because Google browser access was previously denied. No dependency, environment variable, schema change, or commit was added.
+- Final lint and production build passed. Reviewed current Supabase select documentation and changelog; no relevant change affects these existing nested reads. The task stays In progress until authenticated browser verification is confirmed; production preview runs at `http://localhost:3000`.
+
+## 2026-10-02 — Accessibility pass (verified)
+
+- Home and checkout skip links now target programmatically focusable main elements. Header Menu/About links point to home sections from every route; About remains available at narrow widths. Anchor and textarea scroll margins account for the wrapping sticky header.
+- Global keyboard focus uses a dark outline, with the system Highlight color in forced-colors mode. Cart close/stepper targets are 36px; steppers and the instructions field use the muted border for clear control boundaries. The existing palette remains provisional. Sampled text/background pairs passed 4.5:1, with the lowest ratio 5.19:1; muted control borders against white are 6.57:1.
+- Cart count has a persistent polite status region. Quantity text includes its label; subtotal announcements include the context and are atomic. Native dialog focus wrapping, Escape/trigger restoration, and focus recovery after removing a row remain intact.
+- Checkout announces submission outside the busy form. Success moves focus to the labelled confirmation section; errors move focus to the alert. The instructions label, character-limit description, and existing reduced-motion rules remain in place.
+- Browser verification against the real menu passed: keyboard skip link/addition, dialog forward/reverse focus wrapping, quantity changes/removal, removal focus recovery, Escape restoration, signed-out checkout redirect, and return-to-menu navigation. At 320px, menu/drawer had no horizontal overflow. Production preview loaded all six menu products with no browser warnings/errors. React changes were reviewed for stable hooks and existing server/client boundaries; no dependency, environment variable, or schema change was added.
+- The user manually verified signed-in checkout keyboard access, visible focus, confirmation focus, and subsequent Back to the menu navigation. Lint and production build passed. The task is Done; no commit was made. The temporary Next.js-generated AGENTS.md append was removed, preserving project instructions.
+
 ## 2026-10-02 — Mailgun order confirmation
 
 - The user confirmed email delivery works after correcting `MAILGUN_DOMAIN` and `MAILGUN_FROM_EMAIL` in local configuration. The earlier diagnostic response was HTTP 401 Unauthorized with body `Forbidden`; Basic Auth was already correctly implemented and required no change. This resolves the pending manual verification below and marks the task Done. Diagnostics ran in a temporary process and left no logging scaffolding. Only documentation/task status changed in this completion update; previously passing tests, lint, build, and browser-secret scan still apply. No commit was made.

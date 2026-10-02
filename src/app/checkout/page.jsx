@@ -12,7 +12,7 @@ export default async function Checkout() {
     <>
       <a className="skip-link" href="#checkout-main">Skip to checkout</a>
       <Header />
-      <main id="checkout-main" className="mx-auto w-full max-w-5xl px-[6vw] py-12 sm:py-20">
+      <main id="checkout-main" tabIndex={-1} className="mx-auto w-full max-w-5xl px-[6vw] py-12 sm:py-20">
         <h1 className="mb-8 font-display text-4xl sm:text-5xl">Checkout</h1>
         <CheckoutForm />
       </main>

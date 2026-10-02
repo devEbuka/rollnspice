@@ -26,7 +26,7 @@ export default async function Home() {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <Header />
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <section id="about" className="max-w-[880px] px-[6vw] pt-[clamp(64px,11vw,160px)] pb-[7vw]">
           <p className="mb-[18px] text-sm font-medium text-spice">
             Flame-grilled · hand-rolled · Lagos

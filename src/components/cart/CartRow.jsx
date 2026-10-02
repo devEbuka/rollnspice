@@ -12,9 +12,9 @@ export default function CartRow({ item }) {
         <h3 className="text-[15px] font-semibold">{item.name}</h3>
         <p className="text-xs text-muted">{formatPrice(item.price)} each</p>
         <div className="mt-2 flex items-center gap-2.5">
-          <button type="button" aria-label={item.quantity === 1 ? `Remove ${item.name} by decreasing quantity` : `Decrease ${item.name} quantity`} onClick={() => changeQuantity(item.id, -1)} className="size-7 rounded-[3px] border border-line">−</button>
-          <span aria-label={`${item.name} quantity`} className="min-w-4 text-center text-sm">{item.quantity}</span>
-          <button type="button" aria-label={`Increase ${item.name} quantity`} onClick={() => changeQuantity(item.id, 1)} className="size-7 rounded-[3px] border border-line">+</button>
+          <button type="button" aria-label={item.quantity === 1 ? `Remove ${item.name} by decreasing quantity` : `Decrease ${item.name} quantity`} onClick={() => changeQuantity(item.id, -1)} className="size-9 rounded-[3px] border border-muted">−</button>
+          <span className="min-w-4 text-center text-sm"><span className="sr-only">Quantity: </span>{item.quantity}</span>
+          <button type="button" aria-label={`Increase ${item.name} quantity`} onClick={() => changeQuantity(item.id, 1)} className="size-9 rounded-[3px] border border-muted">+</button>
         </div>
       </div>
       <div className="flex shrink-0 flex-col items-end gap-2">

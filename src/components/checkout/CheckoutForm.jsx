@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
 import { SPECIAL_INSTRUCTIONS_LIMIT } from "@/lib/constants";
@@ -18,6 +18,13 @@ export default function CheckoutForm() {
   const [order, setOrder] = useState(null);
   const [emailStatus, setEmailStatus] = useState(null);
   const submitting = useRef(false);
+  const resultRef = useRef(null);
+  const errorRef = useRef(null);
+
+  useEffect(() => {
+    if (order) resultRef.current?.focus();
+    else if (error) errorRef.current?.focus();
+  }, [order, error]);
 
   async function submit(event) {
     event.preventDefault();
@@ -52,8 +59,8 @@ export default function CheckoutForm() {
   // Wait for the persisted cart before deciding whether it is empty.
   if (!ready) return <p role="status" className="text-muted">Loading your cart…</p>;
   if (order) return (
-    <section role="status" className="rounded-[3px] border border-line bg-panel p-6 sm:p-8">
-      <h2 className="mb-3 font-display text-2xl">Order placed</h2>
+    <section ref={resultRef} tabIndex={-1} aria-labelledby="order-result-title" className="rounded-[3px] border border-line bg-panel p-6 sm:p-8">
+      <h2 id="order-result-title" className="mb-3 font-display text-2xl">Order placed</h2>
       <p className="mb-2 break-all text-sm text-muted">Order reference: {order.id}</p>
       <p className="mb-6">Total: <strong>{formatPrice(order.subtotal)}</strong></p>
       <p className="mb-6 text-muted">{emailStatus === "queued" ? "Confirmation email queued. Check your inbox or spam folder." : "Order placed, email unavailable. Your order is saved; please do not place it again."}</p>
@@ -70,14 +77,15 @@ export default function CheckoutForm() {
 
   return (
     <div className="grid items-start gap-6 min-[761px]:grid-cols-2">
+      <p role="status" className="sr-only">{busy ? "Placing your order. Please wait." : ""}</p>
       <OrderSummary items={items} subtotal={subtotal} />
       <form onSubmit={submit} aria-busy={busy} className="rounded-[3px] border border-line bg-panel p-6">
         <h2 className="mb-6 font-display text-2xl">Special instructions</h2>
         <label htmlFor="special-instructions" className="mb-2 block text-sm font-semibold">Anything we should know? <span className="font-normal text-muted">(optional)</span></label>
-        <textarea id="special-instructions" name="special_instructions" value={instructions} onChange={(event) => setInstructions(event.target.value)} maxLength={SPECIAL_INSTRUCTIONS_LIMIT} rows={5} placeholder="e.g. no onions, extra spicy, call on arrival." aria-describedby="instructions-limit" className="w-full resize-y rounded-[3px] border border-line bg-panel px-3 py-3 text-base placeholder:text-muted" />
+        <textarea id="special-instructions" name="special_instructions" value={instructions} onChange={(event) => setInstructions(event.target.value)} maxLength={SPECIAL_INSTRUCTIONS_LIMIT} rows={5} placeholder="e.g. no onions, extra spicy, call on arrival." aria-describedby="instructions-limit" className="w-full resize-y rounded-[3px] border border-muted bg-panel px-3 py-3 text-base placeholder:text-muted" />
         <p id="instructions-limit" className="mt-2 text-sm text-muted">{instructions.length}/{SPECIAL_INSTRUCTIONS_LIMIT} characters</p>
         <button type="submit" disabled={busy} className="mt-8 w-full rounded-[3px] bg-spice px-5 py-3.5 font-semibold text-white disabled:opacity-50">{busy ? "Placing order…" : "Place order"}</button>
-        {error && <p role="alert" className="mt-3 text-sm text-spice">{error} Your cart has not been cleared.</p>}
+        {error && <p ref={errorRef} tabIndex={-1} role="alert" className="mt-3 text-sm text-spice">{error} Your cart has not been cleared.</p>}
         <Link href="/#menu" className="mt-6 inline-block text-sm underline">Back to the menu</Link>
       </form>
     </div>

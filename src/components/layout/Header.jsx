@@ -12,8 +12,9 @@ export default async function Header() {
         Roll N <span className="text-spice">Spice</span>
       </Link>
       <nav aria-label="Main navigation" className="flex flex-wrap items-center gap-4 text-sm text-muted sm:gap-7">
-        <a href="#menu">Menu</a>
-        <a href="#about" className="hidden min-[401px]:inline">About</a>
+        <Link href="/#menu">Menu</Link>
+        <Link href="/#about">About</Link>
+        {user && <Link href="/orders">Orders</Link>}
         <CartButton />
         <AuthControls user={identity} />
       </nav>
