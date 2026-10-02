@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { safeReturnPath } from "@/lib/auth/return-path";
 
-export default function AuthControls({ user }) {
+export default function AuthControls({ user, returnTo }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -29,7 +29,7 @@ export default function AuthControls({ user }) {
         router.refresh();
         setBusy(false);
       } else {
-        const next = safeReturnPath(window.location.pathname + window.location.search + window.location.hash);
+        const next = safeReturnPath(returnTo ?? (window.location.pathname + window.location.search + window.location.hash));
         const callback = new URL("/auth/callback", window.location.origin);
         callback.searchParams.set("next", next);
         const { error } = await supabase.auth.signInWithOAuth({

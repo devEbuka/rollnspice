@@ -1,0 +1,1 @@
+export const SPECIAL_INSTRUCTIONS_LIMIT = 250;

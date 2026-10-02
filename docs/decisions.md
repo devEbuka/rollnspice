@@ -1,5 +1,16 @@
 # Decisions
 
+## 2026-10-02 — Checkout page (manually verified)
+
+- The user confirmed "Manually verified" after the requested checkout checks. This resolves the pending verification below; the checkout task is now Done. Only documentation and task status changed, so the previously passing lint/build results still apply. No commit was made.
+
+- `/checkout` checks `getUser()` on the server before rendering checkout content. Signed-out requests receive a 307 redirect to `/sign-in?next=%2Fcheckout`. The new sign-in page and the existing AuthControls reuse `safeReturnPath`; an optional `returnTo` prop supplies the validated destination to the existing OAuth callback. Already-authenticated visitors to sign-in are redirected to that destination. The checkout return destination is explicitly `/checkout`.
+- Separate CheckoutForm and OrderSummary components read the shared persisted cart, display quantities, unit prices, line totals, and subtotal using the existing kobo formatter. A hydration-ready snapshot prevents a populated persisted cart from initially appearing empty. Empty carts instead show a clear message and a `/#menu` link, with no zero-value order summary or form.
+- Optional special instructions use a labelled textarea with the example "e.g. no onions, extra spicy, call on arrival.", a 250-character maximum, and a visible counter. The limit lives in `src/lib/constants.js` for reuse by the later server API. PostgreSQL `text` has no matching database length constraint; the future order API must enforce this application limit server-side. No schema change was made.
+- Place order remains disabled with a clear availability message. Form submission is prevented; no order API, database writes, emails, cart clearing, or client-sent user IDs are involved. Instructions remain local component state; they are not stored in localStorage. Cart prices are still display snapshots and must later be recalculated server-side when placing an order.
+- Lint and production build passed. Browser and HTTP checks confirmed the signed-out checkout redirect, sign-in page guidance, and exact `/checkout` return parameter. Google browser access was previously denied; the user said they will manually verify authenticated return, summary/instructions, and empty-cart behavior. The task remains In progress until those checks are confirmed. Production preview remains at `http://localhost:3000` for the user.
+- No dependencies, environment variables, temporary application test scaffolding, or commits were added. Auth controls retain their original current-page return default when no explicit destination is supplied.
+
 ## 2026-10-02 — Persistent cart and drawer
 
 - `useCart` uses one browser-only external store with `useSyncExternalStore`. Server rendering starts with an empty snapshot, then hydrates from localStorage without hydration mismatches. Menu cards remain Server Components; small AddToCartButton and CartButton Client Components subscribe to the shared store. The root layout renders one drawer across routes.
