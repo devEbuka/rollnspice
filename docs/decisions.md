@@ -2,6 +2,8 @@
 
 ## 2026-10-02 — Approved street-food redesign
 
+- After the final refinements, the user said "I believe we're good now," accepting the finished design. Marked the redesign Done. This records design acceptance; it does not claim additional authenticated test results beyond those already recorded. Only task status and documentation changed; prior lint/build results apply. Preview was stopped at the user's request. No commit was made.
+
 - Mobile header refinement: Cart is inside the hamburger disclosure at widths up to 560px; desktop keeps the standalone Cart button. Choosing mobile Cart closes navigation before opening the drawer and focuses the visible hamburger control so drawer closure restores focus safely.
 
 - Navbar identity refinement: signed-in users get a compact initials button, with a bounded/truncated first name only on desktop. Its disclosure shows wrapping full name/email, Your orders and the existing session-clearing Sign out action. Outside click, Escape and leaving focus close the panel; Escape restores trigger focus. Mobile uses a fixed-width initials control to prevent long names expanding the header. This is display data only, not an authorization change.

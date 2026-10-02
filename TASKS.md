@@ -1,12 +1,12 @@
 # TASKS.md
 
 ## In progress
-- [ ] Implement approved street-food UI mockup across menu, cart, auth, checkout, and history
 
 ## Up next
 - [ ] Deploy to Vercel (add env vars there too; add verified live URL to README)
 
 ## Done
+- [x] Implement approved street-food UI mockup across menu, cart, auth, checkout, and history — lint/build and browser checks pass; user accepted the final design after UI refinements
 - [x] README with setup instructions — project setup, env/security boundaries, OAuth, Mailgun, commands and routes documented; lint/build pass; verified live URL to be added during deployment
 - [x] Order history: authenticated /orders page with own orders, saved line items, and header link — lint/build and signed-out protection pass; authenticated history manually verified by the user
 - [x] Accessibility pass: keyboard access, aria-labels, contrast (per DESIGN.md) — keyboard menu/cart/sign-in checks, 320px layout, text contrast, lint/build pass; user verified signed-in checkout focus and keyboard flow
