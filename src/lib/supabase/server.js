@@ -20,8 +20,8 @@ export async function createClient() {
               cookieStore.set(name, value, options);
             });
           } catch (error) {
-            // Server Components cannot write cookies. The auth task will add
-            // a refresh proxy; Route Handlers and Server Actions can write them.
+            // Middleware persists refresh cookies before Server Components run;
+            // Route Handlers and Server Actions can write them directly.
             if (!error.message?.includes("Cookies can only be modified")) {
               throw error;
             }

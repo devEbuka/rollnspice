@@ -1,5 +1,28 @@
 # Decisions
 
+## 2026-10-02 — Google session verification confirmed
+
+- The user confirmed: "Google session check manually verified." This resolves the manual verification pending below. With the previously passing lint, build, callback validation, and proxy checks, the Google sign-in task is now Done.
+- Only `TASKS.md` and this verification record were updated. No application code changed or commit was made; the previously passing lint/build results still apply.
+
+## 2026-10-02 — Next.js proxy convention rename
+
+- Checked the installed Next.js 16.3.8 documentation and build discovery: this `src/app` project requires `src/proxy.js`, exporting `proxy`. Replaced root `middleware.js` and the `src/middleware.js` forwarding entry with that single entry point. This supersedes the middleware filename decision below.
+- Kept the matcher exactly the same and left `src/lib/supabase/middleware.js` unchanged. The helper filename is not a framework convention. Session validation/refresh still calls `getClaims()`, forwards refreshed cookies to both request and response with their options, preserves SDK headers, and marks responses private/no-store.
+- Lint and production build passed with no middleware deprecation warning; the build registers Proxy. In-memory checks confirmed refreshed-cookie/header propagation and identical matcher inclusion/exclusion. Production HTTP checks returned the real menu with HTTP 200 and private/no-store headers; favicon remained outside the matcher. No temporary test files were created.
+- This rename preserves the existing refresh implementation; a successful real Google session refresh remains subject to the previously documented manual verification. No other application files, dependencies, environment variables, or task status were changed, and no commit was made.
+
+## 2026-10-02 — Google OAuth flow (manual verification subsequently confirmed above)
+
+- Header identity comes from server-validated `getUser()`. Only the display name/email is passed to the browser; editable profile names are presentation only, never authorization. Signed-out users see one Google button; signed-in users see their name/email and Sign out.
+- Google OAuth uses the existing browser helper and a PKCE callback at `/auth/callback`. The current pathname, query, and fragment become the return destination. Shared validation accepts only internal slash-prefixed paths and rejects full URLs, protocol-relative URLs, backslashes, encoded equivalents, controls, and malformed encoding. Failed/cancelled callbacks show `/auth/error` with a validated return link and no raw provider details.
+- Sign out calls Supabase `signOut({ scope: "local" })`, which revokes the current session and removes its browser cookies; router refresh then re-reads server identity. Auth events also refresh the header, including sign-outs in another tab. Other devices are intentionally unaffected.
+- Session refresh implementation lives in root `middleware.js`, delegating client creation to `src/lib/supabase/middleware.js`. Because this app lives in `src/app`, the installed Next.js build discovers only the `src/middleware.js` entry point. Its matcher mirrors the root matcher and excludes Next assets, common static file types, and favicon. The confirmed build registers middleware. Next.js 16 emits a deprecation warning for this requested filename; no migration to proxy was made.
+- Middleware validates/refreshes tokens via `getClaims()`, updates both request and response cookies, preserves SDK cache headers, and marks auth-aware responses private/no-store. Server identity still uses remote `getUser()` validation. Only the public URL and publishable key are used; no dependency, environment, schema, checkout, or cart changes were made.
+- Validation passed: return-path allow/deny checks, lint, final production build, live six-product signed-out page, Google button navigation, missing/invalid-code callback handling, external-return rejection, and internal `/checkout?from=menu` return preservation. No temporary app scaffolding or commits were added.
+- Successful Google sign-in, session persistence/refresh, authenticated header, and sign-out remain unverified: browser security explicitly denied access to `accounts.google.com`. The task stays In progress until the user manually verifies those flows. Production preview runs at `http://localhost:3011` for that verification.
+- Documentation: https://supabase.com/docs/guides/auth/server-side/creating-a-client and https://supabase.com/docs/guides/auth/social-login/auth-google. The skill-required changelog fetch and MCP documentation search were unavailable (DNS/transport errors); current official web documentation and installed library/framework source were used.
+
 ## 2026-10-01 — Initial database migration (approved and applied)
 
 - Save the migration at `supabase/migrations/0001_init.sql`, as requested, and apply the reviewed SQL through the Supabase plugin.
