@@ -1,5 +1,16 @@
 # Decisions
 
+## 2026-10-02 — Mailgun order confirmation
+
+- The user confirmed email delivery works after correcting `MAILGUN_DOMAIN` and `MAILGUN_FROM_EMAIL` in local configuration. The earlier diagnostic response was HTTP 401 Unauthorized with body `Forbidden`; Basic Auth was already correctly implemented and required no change. This resolves the pending manual verification below and marks the task Done. Diagnostics ran in a temporary process and left no logging scaffolding. Only documentation/task status changed in this completion update; previously passing tests, lint, build, and browser-secret scan still apply. No commit was made.
+
+- After the atomic order write succeeds, the API reads the saved order and line items through the request-scoped Supabase helper under RLS. Receipt amounts use saved unit prices and subtotal. The recipient is the server-verified user's confirmed email, never a client-supplied address or user ID.
+- All sending goes through server-only `src/lib/mailgun.js`, using the configured `MAILGUN_FROM_EMAIL` sandbox postmaster address and the user-confirmed US endpoint `https://api.mailgun.net`. No dependency or environment variable was added.
+- Known sandbox limitation: delivery succeeds only to Mailgun's authorized recipients list. Live testing requires the user's own verified, authorized email. See https://documentation.mailgun.com/docs/mailgun/user-manual/domains/domains-sandbox.
+- Receipts include the order reference, quantities, saved prices, total, and special instructions in plain text and simple HTML. Stored names and instructions are escaped in HTML.
+- Sending has an eight-second timeout and no automatic retries. Receipt lookup or sending failure returns a successful placed order with email status `unavailable`; checkout visibly says the order is saved and should not be placed again. Mailgun acceptance returns `queued`, which does not promise inbox delivery. A confirmed order still clears submitted cart quantities even when email is unavailable.
+- Thirteen regression tests passed, including escaped receipt content, verified recipient selection, persisted order lookup, and nonfatal email failure. Lint and production build passed. Live sandbox delivery remains pending manual verification because Google browser access was previously denied. The task stays In progress until that check is confirmed. No database schema change or commit was made.
+
 ## 2026-10-02 — Atomic order placement (manually verified)
 
 - The user verified a signed-in order showing its reference and total, clearing the submitted cart, and storing the order plus line items with correct user_id, subtotal, and special_instructions. They also tampered with localStorage prices and confirmed Supabase stored the real product unit price. This resolves the pending browser verification below; the Order API task is Done. Only task status and this verification record changed; previously passing tests, lint, and build still apply. No commit was made.

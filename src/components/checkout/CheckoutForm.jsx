@@ -16,6 +16,7 @@ export default function CheckoutForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [order, setOrder] = useState(null);
+  const [emailStatus, setEmailStatus] = useState(null);
   const submitting = useRef(false);
 
   async function submit(event) {
@@ -38,6 +39,7 @@ export default function CheckoutForm() {
       }
       if (!result.order?.id || !Number.isSafeInteger(result.order.subtotal)) throw new Error("Could not confirm your order. Your cart is saved.");
       setOrder(result.order);
+      setEmailStatus(result.email?.status === "queued" ? "queued" : "unavailable");
       completeOrder(submitted);
     } catch (failure) {
       setError(failure.message === "Failed to fetch" ? "Could not confirm your order. Your cart is saved; check before retrying." : failure.message);
@@ -54,6 +56,7 @@ export default function CheckoutForm() {
       <h2 className="mb-3 font-display text-2xl">Order placed</h2>
       <p className="mb-2 break-all text-sm text-muted">Order reference: {order.id}</p>
       <p className="mb-6">Total: <strong>{formatPrice(order.subtotal)}</strong></p>
+      <p className="mb-6 text-muted">{emailStatus === "queued" ? "Confirmation email queued. Check your inbox or spam folder." : "Order placed, email unavailable. Your order is saved; please do not place it again."}</p>
       <Link href="/#menu" className="inline-block rounded-[3px] bg-ink px-5 py-3 font-semibold text-background">Back to the menu</Link>
     </section>
   );

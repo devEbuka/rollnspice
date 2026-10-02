@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { validateOrder } from "@/lib/orders/validate";
+import { sendOrderConfirmation } from "@/lib/orders/confirmation";
 
 function reply(body, status) {
   return NextResponse.json(body, { status, headers: { "Cache-Control": "private, no-store" } });
@@ -34,7 +35,8 @@ export async function POST(request) {
     if (error?.code === "22023") return reply({ error: "The order exceeds allowed limits. Check quantities and instructions." }, 400);
     if (error?.message === "AUTH_REQUIRED") return reply({ error: "Sign in again before placing your order." }, 401);
     if (error) return reply({ error: "Could not place your order. Your cart is saved." }, 503);
-    return reply({ order: data }, 201);
+    const email = await sendOrderConfirmation(supabase, auth.user, data.id);
+    return reply({ order: data, email }, 201);
   } catch {
     return reply({ error: "Could not confirm your order. Your cart is saved." }, 503);
   }

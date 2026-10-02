@@ -8,10 +8,12 @@ globalThis.AsyncLocalStorage = AsyncLocalStorage;
 const { NextResponse } = (await import("next/server.js")).default;
 globalThis.orderTestResponse = NextResponse;
 globalThis.orderTestValidate = validateOrder;
+globalThis.orderTestEmailStatus = "queued";
 const source = fs.readFileSync(new URL("../../app/api/orders/route.js", import.meta.url), "utf8")
   .replace('import { NextResponse } from "next/server";', "const NextResponse = globalThis.orderTestResponse;")
   .replace('import { createClient } from "@/lib/supabase/server";', "const createClient = async () => globalThis.orderTestClient;")
-  .replace('import { validateOrder } from "@/lib/orders/validate";', "const validateOrder = globalThis.orderTestValidate;");
+  .replace('import { validateOrder } from "@/lib/orders/validate";', "const validateOrder = globalThis.orderTestValidate;")
+  .replace('import { sendOrderConfirmation } from "@/lib/orders/confirmation";', "const sendOrderConfirmation = async () => ({status: globalThis.orderTestEmailStatus});");
 const { POST } = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
 const id = "12345678-1234-1234-1234-123456789012";
 const body = { items: [{ product_id: id, quantity: 2, price: 1 }], user_id: "forged", subtotal: 1 };
@@ -58,4 +60,13 @@ test("successful RPC accepts no client identity or monetary values", async () =>
   assert.equal(response.status, 201);
   assert.deepEqual(called(), { name: "create_order", args: { p_items: [{ product_id: id, quantity: 2 }], p_special_instructions: null } });
   assert.equal((await response.json()).order.subtotal, 900000);
+});
+
+test("email failure keeps the committed order successful and visible", async () => {
+  globalThis.orderTestEmailStatus = "unavailable";
+  client({ data: { id, subtotal: 900000, status: "pending" }, error: null });
+  const response = await POST(request());
+  assert.equal(response.status, 201);
+  assert.deepEqual(await response.json(), { order: { id, subtotal: 900000, status: "pending" }, email: { status: "unavailable" } });
+  globalThis.orderTestEmailStatus = "queued";
 });
