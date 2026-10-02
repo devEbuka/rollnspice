@@ -1,4 +1,5 @@
 import { formatPrice } from "@/lib/format";
+import AddToCartButton from "./AddToCartButton";
 
 export default function MenuItemCard({ product }) {
   const { name, description, price, category, featured } = product;
@@ -14,9 +15,7 @@ export default function MenuItemCard({ product }) {
         <p className="flex-1 text-sm text-muted">{description}</p>
         <div className="mt-1 flex flex-wrap items-center justify-between gap-3">
           <span className="text-[17px] font-semibold tabular-nums">{formatPrice(price)}</span>
-          <button type="button" aria-disabled="true" aria-label={`Add ${name} to cart`} className="rounded-[3px] border border-line px-4 py-2 text-[13px] font-medium transition-colors duration-150 hover:border-spice hover:bg-spice/10">
-            Add to cart
-          </button>
+          <AddToCartButton product={{ id: product.id, name, price }} />
         </div>
       </div>
     </article>

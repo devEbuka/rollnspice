@@ -1,5 +1,15 @@
 # Decisions
 
+## 2026-10-02 — Persistent cart and drawer
+
+- `useCart` uses one browser-only external store with `useSyncExternalStore`. Server rendering starts with an empty snapshot, then hydrates from localStorage without hydration mismatches. Menu cards remain Server Components; small AddToCartButton and CartButton Client Components subscribe to the shared store. The root layout renders one drawer across routes.
+- Persist only `{ version: 1, items: [{ id, name, price, quantity }] }` under `rollnspice-cart`. Product IDs key rows; repeat adds increment quantity. Prices/subtotals stay in integer kobo and use the existing shared formatter. Badge count sums quantities. Cart prices are display snapshots, never authoritative checkout/order prices; the later order API must fetch current products server-side.
+- Decrementing quantity 1 removes the row, with an explicit removal aria-label. Every row also offers a separate visible Remove button. Empty carts show a message and disabled Checkout; populated carts link to `/checkout`, whose implementation remains the next task. The cart is not cleared just by following that link.
+- Entire invalid payloads fall back to an empty cart: malformed JSON, wrong schema version, duplicate IDs, invalid UUID/name/money/quantity, or unsafe numeric totals. Only documented fields are retained. Storage access/write failures preserve usable in-memory state; storage events synchronize other tabs. No database writes occur.
+- Separate CartDrawer and CartRow components follow the mockup's 400px/92vw right drawer, scrim, row layout, totals, and provisional colors. Native `dialog.showModal()` makes the background inert; explicit Tab/Shift+Tab loops keep focus inside. Escape, scrim, and close-button dismissals restore trigger focus; focused-row removal moves focus to Close. Body scrolling locks while open. Entry animation is disabled for reduced motion.
+- Browser checks against the real six-product menu passed: duplicate-add merging, quantity changes, separate removal and decrement-at-one removal, badge/subtotals, persistence after reload, empty state, Escape/scrim dismissal, focus restoration/loop/removal recovery, scroll lock, and 320px mobile layout without overflow. Checkout navigated to the expected currently unimplemented `/checkout` 404. Cart-page console logs had no warnings/errors.
+- In-memory validation/integration checks passed for corrupted/old-version payloads, duplicate IDs, invalid numeric values, unavailable storage, duplicate merging, and removal floor. Final lint and production build passed. No temporary application test scaffolding, dependencies, environment variables, schema changes, or commits were added.
+
 ## 2026-10-02 — Google session verification confirmed
 
 - The user confirmed: "Google session check manually verified." This resolves the manual verification pending below. With the previously passing lint, build, callback validation, and proxy checks, the Google sign-in task is now Done.

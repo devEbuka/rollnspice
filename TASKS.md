@@ -4,7 +4,6 @@
 - (nothing yet)
 
 ## Up next
-- [ ] Cart: useCart hook (localStorage-backed), CartDrawer UI matching docs/mockup.html
 - [ ] Checkout page: require auth, show order summary, special instructions field
 - [ ] Order API route: create order + order_items in Supabase from the server, using the authenticated session
 - [ ] Mailgun integration: send confirmation email server-side after a successful order
@@ -13,6 +12,7 @@
 - [ ] Deploy to Vercel (add env vars there too)
 
 ## Done
+- [x] Cart: useCart hook (localStorage-backed), CartDrawer UI matching docs/mockup.html — duplicate merging, quantities/removal, totals, persistence, storage recovery, modal keyboard/mobile behavior, and checkout link verified; lint/build pass
 - [x] Google sign-in flow: header shows sign-in/sign-out state, auth callback route — lint/build, callback validation, and proxy checks pass; Google session manually verified by the user
 - [x] Display the menu on the home page, reading from the products table — live menu, responsive featured cards, shared naira formatting, empty/error states verified; lint/build pass
 - [x] Supabase client setup: lib/supabase/client.js (browser) and lib/supabase/server.js (server, cookie-based session) — live browser/server reads verified, getUser rejects forged cookies, lint/build pass
