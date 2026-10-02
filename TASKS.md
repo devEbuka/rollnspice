@@ -4,7 +4,6 @@
 - (nothing yet)
 
 ## Up next
-- [ ] Display the menu on the home page, reading from the products table
 - [ ] Google sign-in flow: header shows sign-in/sign-out state, auth callback route
 - [ ] Cart: useCart hook (localStorage-backed), CartDrawer UI matching docs/mockup.html
 - [ ] Checkout page: require auth, show order summary, special instructions field
@@ -15,6 +14,7 @@
 - [ ] Deploy to Vercel (add env vars there too)
 
 ## Done
+- [x] Display the menu on the home page, reading from the products table — live menu, responsive featured cards, shared naira formatting, empty/error states verified; lint/build pass
 - [x] Supabase client setup: lib/supabase/client.js (browser) and lib/supabase/server.js (server, cookie-based session) — live browser/server reads verified, getUser rejects forged cookies, lint/build pass
 - [x] Create database schema in Supabase (products, orders, order_items) per docs/schema.md, with RLS policies, seeded menu — approved SQL applied; live SQL/RLS checks, lint, and build pass; products manually verified by the user
 - [x] Scaffold Next.js app with Tailwind

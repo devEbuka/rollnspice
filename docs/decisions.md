@@ -23,3 +23,14 @@
 - Cookie `getAll`/`setAll` adapters preserve Supabase cookie options. Only Next.js's read-only Server Component cookie-write error is suppressed; other write errors propagate. Session-refresh proxy integration belongs to the later Google sign-in task, since Server Components cannot persist refreshed cookies.
 - Temporary verification code confirmed both helpers read six real products, separate server client instances, a null signed-out user, rejection of a fabricated session cookie, and a subsequent signed-out request. Browser logs had no errors/warnings; 40 browser chunks/maps contained no server-only env values. All temporary routes/components were removed and the dev server stopped.
 - Final lint and production build passed. No auth callback, permanent UI, new dependencies, env vars, schema changes, or commits were added. A valid signed-in Google session will be verified during the auth task.
+
+## 2026-10-02 — Home page menu
+
+- The home page reads only the six display fields from `products` through the existing request-scoped server helper. Products sort by `featured` descending, then name ascending for a stable order; no product name controls featured styling.
+- `MenuGrid.jsx` owns the responsive grid and distinct empty/error messages; `MenuItemCard.jsx` owns each card. Featured cards span two columns above 560px and stack on mobile. Desktop uses three columns above 860px; tablet uses two.
+- `src/lib/format.js` exports `formatPrice(kobo)` using one `Intl.NumberFormat` for NGN. Whole naira omit decimals; fractional kobo remain visible up to two decimals. This helper is reusable by cart and checkout.
+- Header and hero follow the mockup. Fraunces/Inter use `next/font`; the warm palette remains provisional. Muted/spice colors were darkened for contrast, with the lowest tested text/background pair at 5.18:1. Focus outlines, skip navigation, and reduced-motion styles are included.
+- Add-to-cart and header cart buttons are inert with `aria-disabled`, retaining keyboard focus. Cart count is zero until the cart task supplies real state. Auth and cart behavior remain separate tasks.
+- Fetch failures show a clear generic message without database details. `unstable_rethrow` preserves Next.js internal control flow inside the catch block, so request cookie access correctly keeps the home route dynamic in production.
+- Browser verification confirmed all six real menu names/descriptions/prices, desktop/tablet/mobile layout (including 320px and 390px with no horizontal overflow), featured span, keyboard focus, and no console errors/warnings. Temporary read-only Supabase queries exercised empty and error messages; the verification route was removed without changing data.
+- Shared formatter checks, lint, production build, and final production browser verification passed. No dependencies, environment variables, schema changes, or commits were added.
