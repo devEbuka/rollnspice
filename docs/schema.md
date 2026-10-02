@@ -4,6 +4,12 @@ Source of truth for the database schema. Update this whenever a table, column, o
 
 Applied SQL: `supabase/migrations/0001_init.sql`.
 
+## Atomic order RPC
+- Migration: `supabase/migrations/0002_create_order.sql` (applied 2026-10-02).
+- `public.create_order(p_items jsonb, p_special_instructions text default null)` returns JSON `{id, subtotal, status}`. SECURITY INVOKER with an empty search path; authenticated callers retain existing RLS restrictions. PUBLIC/anon execution is revoked; authenticated execution is granted.
+- Ownership comes only from `auth.uid()`. No user ID, price, subtotal, or status argument is accepted. Product prices are read in the database and copied to line items; missing products abort the whole operation and return their IDs in error details.
+- Validates 1–100 unique UUID product IDs, integer quantities 1–99, instructions at most 250 characters, and subtotal within the existing integer column's range. Order and line-item inserts are in one function transaction; any error rolls back both. No table, column, or policy changes.
+
 ## products
 Public menu, read-only from the app.
 | column      | type      | notes                              |
@@ -43,6 +49,7 @@ Line items per order. Snapshots unit_price at order time so later menu price cha
 RLS: a user may SELECT/INSERT rows where the parent order's user_id = auth.uid() (via a policy that checks EXISTS against orders).
 
 ## Status log
+- 2026-10-02 — Applied `0002_create_order.sql` through the Supabase plugin. Confirmed SECURITY INVOKER, empty search path, anonymous execution denied, authenticated execution granted, and unchanged table RLS. Live rollback tests confirmed atomic order/items, trusted prices/ownership, missing-product error details, validation, and cross-user isolation. All test fixtures and temporary privilege changes were rolled back.
 - 2026-10-01 — User manually verified the products table matches the reported seed data and approved marking the schema task Done.
 - 2026-10-01 — Applied `0001_init.sql` through the Supabase plugin to `hng-shop` (`kojdjmchgcqeqbnonruk`). Confirmed three tables, RLS on every table, five policies, explicit client grants, constraints, and all six exact mockup menu items with prices in kobo. Transactional RLS allow/deny tests passed; test fixtures were rolled back.
 

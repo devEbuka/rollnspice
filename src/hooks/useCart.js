@@ -68,6 +68,15 @@ function changeQuantity(id, delta) {
   }));
 }
 
+function completeOrder(submitted) {
+  // Keep items/quantities added while the request was in flight.
+  save(getSnapshot().items.flatMap((item) => {
+    const ordered = submitted.find((line) => line.id === item.id);
+    const quantity = item.quantity - (ordered?.quantity ?? 0);
+    return quantity > 0 ? [{ ...item, quantity }] : [];
+  }));
+}
+
 function setOpen(open) {
   snapshot = { ...getSnapshot(), open };
   emit();
@@ -79,7 +88,7 @@ export function useCart() {
     ...state,
     count: state.items.reduce((sum, item) => sum + item.quantity, 0),
     subtotal: state.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    addItem, removeItem, changeQuantity,
+    addItem, removeItem, changeQuantity, completeOrder,
     openCart: () => setOpen(true),
     closeCart: () => setOpen(false),
   };
