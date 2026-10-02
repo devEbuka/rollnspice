@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-10-02 — Mobile cart beside account controls
+
+- Supersedes the earlier mobile hamburger-cart placement. Header actions group the cart and auth controls together; below 561px the cart shows only its icon in a 44px button beside the initials or sign-in button. Desktop retains its label and visible count. The accessible label and live announcement still include the item count on mobile.
+- Removed the cart from MobileMenu. Existing focus, cursor, and pressed feedback remain; drawer closure restores focus directly to the visible cart button. Verified 320px signed-out layout without overflow, drawer opening/Escape focus restoration, desktop labels, and no browser warnings/errors against the real menu. Authenticated Google browser access remains unavailable; the same action group contains the existing initials component.
+- Lint and production build passed. No schema, dependencies, environment variables, or commits changed. Temporary preview stopped after verification.
+
 ## 2026-10-02 — Production deployment verified
 
 - Vercel production deployment is live at https://rollnspice.vercel.app. README now records the verified URL and deployment setup; deployment is Done in TASKS.md.

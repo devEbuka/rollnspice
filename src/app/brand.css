@@ -9,8 +9,7 @@
 .mobile-menu summary::-webkit-details-marker { display: none; }
 .mobile-menu > div { position: absolute; top: 100%; left: 0; z-index: 12; min-width: 140px; padding: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 20px #211e1a15; }
 .mobile-menu a { display: block; padding: 12px; }
-.mobile-cart { padding: 8px; }
-.mobile-cart .cart-button { width: 100%; justify-content: center; }
+.header-actions { display: flex; align-items: center; gap: 25px; }
 .cart-button { display: inline-flex; align-items: center; gap: 6px; border-radius: 10px; padding: 12px 17px; background: var(--foreground); color: var(--background); font-size: 13px; font-weight: 600; }
 .auth-button { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--muted); border-radius: 10px; padding: 11px 14px; font-weight: 600; }
 .auth-button:disabled { opacity: .6; }
@@ -55,6 +54,7 @@
 .add-button:focus-visible { outline-offset: 3px; }
 @media (max-width: 1100px) {
   .header-nav { gap: 16px; }
+  .header-actions { gap: 16px; }
   .menu-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .menu-card-featured { grid-column: span 2; }
   .hero h1 { font-size: 6.7vw; }
@@ -62,6 +62,7 @@
 @media (max-width: 860px) {
   .site-header { padding: 18px 5vw; gap: 12px; }
   .header-nav { gap: 12px; }
+  .header-actions { gap: 12px; }
   .menu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero h1 { letter-spacing: -1px; }
 }
@@ -85,10 +86,9 @@
   .header-nav { width: 100%; gap: 12px; justify-content: space-between; }
   .header-nav > a { display: none; }
   .mobile-menu { display: block; }
-  .desktop-cart { display: none; }
-  .header-nav > div { order: 4; }
   .auth-button { padding: 10px; font-size: 12px; }
-  .cart-button { padding: 10px; }
+  .cart-button { padding: 10px; width: 44px; height: 44px; justify-content: center; flex-shrink: 0; }
+  .cart-label, .cart-count { display: none; }
   .hero { padding-top: 20px; }
   .eyebrow { font-size: 15px; letter-spacing: 1.4px; margin-bottom: 12px; }
   .hero h1 { font-size: 13vw; }

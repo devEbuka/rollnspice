@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import CartButton from "./CartButton";
 
 export default function MobileMenu({ signedIn }) {
   const menuRef = useRef(null);
@@ -13,11 +12,6 @@ export default function MobileMenu({ signedIn }) {
       <Link href="/#menu" onClick={close}>Menu</Link>
       <Link href="/#about" onClick={close}>About</Link>
       {signedIn && <Link href="/orders" onClick={close}>Orders</Link>}
-      <div className="mobile-cart" onClick={() => {
-        close();
-        // The drawer should restore focus to a visible control after closing.
-        menuRef.current.querySelector("summary").focus();
-      }}><CartButton /></div>
     </div>
   </details>;
 }

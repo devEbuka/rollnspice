@@ -16,8 +16,10 @@ export default async function Header() {
         <Link href="/#about">About</Link>
         {user && <Link href="/orders">Orders</Link>}
         <MobileMenu signedIn={Boolean(user)} />
-        <div className="desktop-cart"><CartButton /></div>
-        <AuthControls user={identity} />
+        <div className="header-actions">
+          <CartButton />
+          <AuthControls user={identity} />
+        </div>
       </nav>
     </header>
   );

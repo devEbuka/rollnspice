@@ -5,6 +5,7 @@
 ## Up next
 
 ## Done
+- [x] Move mobile cart beside account controls with an icon-only button — 320px layout, drawer focus restoration, desktop labels, lint/build verified
 - [x] Deploy to Vercel — https://rollnspice.vercel.app; user verified production sign-in, checkout, email, history, and sign-out; README updated; lint/build pass
 - [x] Implement approved street-food UI mockup across menu, cart, auth, checkout, and history — lint/build and browser checks pass; user accepted the final design after UI refinements
 - [x] README with setup instructions — project setup, env/security boundaries, OAuth, Mailgun, commands and routes documented; lint/build pass; verified production URL added
