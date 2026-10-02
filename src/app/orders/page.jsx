@@ -38,7 +38,7 @@ export default async function Orders({ searchParams }) {
         <h1 className="mb-3 font-display text-4xl sm:text-5xl">Your orders</h1>
         <p className="mb-8 text-muted">Your order history, newest first.</p>
         {failed ? (
-          <div role="alert" className="rounded-[3px] border border-line bg-panel p-6">
+          <div role="alert" className="rounded-xl border border-line bg-panel p-6">
             <h2 className="mb-2 font-display text-xl">Order history is temporarily unavailable</h2>
             <p className="mb-4 text-muted">Please try again shortly.</p>
             <a href={returnTo} className="underline">Try again</a>
@@ -46,7 +46,7 @@ export default async function Orders({ searchParams }) {
         ) : orders.length ? (
           <div className="space-y-6">{orders.slice(0, PAGE_SIZE).map((order) => <OrderHistoryCard key={order.id} order={order} />)}</div>
         ) : (
-          <section className="rounded-[3px] border border-line bg-panel p-6">
+          <section className="rounded-xl border border-line bg-panel p-6">
             <h2 className="mb-2 font-display text-xl">{page === 1 ? "No orders yet" : "No orders on this page"}</h2>
             <p className="text-muted">{page === 1 ? "Your placed orders will appear here." : "Go back to see your more recent orders."}</p>
           </section>

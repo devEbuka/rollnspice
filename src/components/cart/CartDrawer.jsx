@@ -57,7 +57,7 @@ export default function CartDrawer() {
         </div>
         <div className="border-t border-line px-6 py-5">
           <div className="mb-4 flex justify-between"><span>Subtotal</span><strong className="text-lg tabular-nums" aria-live="polite" aria-atomic="true"><span className="sr-only">Cart subtotal: </span>{formatPrice(subtotal)}</strong></div>
-          {items.length ? <Link href="/checkout" onClick={closeCart} className="block rounded-[3px] bg-spice py-[15px] text-center text-[15px] font-semibold text-white">Checkout</Link> : <button type="button" disabled className="w-full rounded-[3px] bg-spice py-[15px] font-semibold text-white opacity-50">Checkout</button>}
+          {items.length ? <Link href="/checkout" onClick={closeCart} className="block rounded-lg bg-spice py-[15px] text-center text-[15px] font-semibold text-white">Checkout</Link> : <button type="button" disabled className="w-full rounded-lg bg-spice py-[15px] font-semibold text-white opacity-50">Checkout</button>}
         </div>
       </div>
     </dialog>

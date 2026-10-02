@@ -1,6 +1,24 @@
 # Decisions
 
-## 2026-10-02 � Project README
+## 2026-10-02 — Approved street-food redesign
+
+- Mobile header refinement: Cart is inside the hamburger disclosure at widths up to 560px; desktop keeps the standalone Cart button. Choosing mobile Cart closes navigation before opening the drawer and focuses the visible hamburger control so drawer closure restores focus safely.
+
+- Navbar identity refinement: signed-in users get a compact initials button, with a bounded/truncated first name only on desktop. Its disclosure shows wrapping full name/email, Your orders and the existing session-clearing Sign out action. Outside click, Escape and leaving focus close the panel; Escape restores trigger focus. Mobile uses a fixed-width initials control to prevent long names expanding the header. This is display data only, not an authorization change.
+
+- Add-to-cart refinement: replaced the detached circular plus/text treatment with one orange pill, a small SVG plus and readable label. The 44px minimum height improves targeting; hover, keyboard focus and the shared pressed state provide feedback. Cart behavior and accessible product-specific names remain unchanged.
+
+- Follow-up: order history line items now reuse the cart's decorative 56px product thumbnails, with the same missing-image fallback. All enabled buttons, links, and disclosure controls use a pointer cursor; disabled buttons use not-allowed. Buttons and button-styled links show darkened/inset pressed feedback without moving content; reduced-motion settings disable transitions.
+
+- The user approved the generated desktop/mobile mockup and authorized implementation. Saved it as `docs/approved-ui-mockup.png`; DESIGN.md now supersedes the provisional serif/palette direction. Anton and Inter use existing next/font integration; no dependency was added.
+- Added repository-local generated photography for hero, chicken, suya, falafel, fries, and zobo. Beef's menu card uses the original hero photograph; the homepage uses a separate transparent cutout. These are illustrative images, not shop-supplied photographs. Next Image optimizes responsive delivery.
+- Recreated the cream/charcoal hero, condensed headings, orange controls, lime sticker, static brand strip, rounded food cards and responsive navigation. Featured treatment still comes from the featured column. All database menu names/descriptions/prices are unchanged; image mapping is presentation-only, with missing images gracefully omitted.
+- Shared styling now covers cart, auth, checkout and history. Server identity, RLS, validated auth returns, atomic orders, cart persistence and email handling are unchanged. Mobile navigation uses a native disclosure that closes on selection.
+- Orange is darkened to #c93910 for contrast: orange on cream 4.69:1, white on orange 5.15:1, muted on cream 6.11:1. Keyboard focus, skip links, cart announcements, result/error focus, reduced motion and forced-colors behavior remain intact.
+- Browser checks passed for real menu content, menu imagery, 320px/390px layouts without horizontal overflow, mobile navigation visibility, drawer focus wrapping and Escape restoration. Lint/build and thirteen order/email regression tests passed. Signed-in header/checkout/history styling remains pending manual verification because Google browser access was previously denied. No schema, environment variable, or commit was added.
+- Final production check confirmed mobile selection closes the disclosure, no browser warnings/errors, and no server-only values in browser chunks/maps. Desktop/mobile screenshots were saved for review. Task remains In progress until the requested authenticated check is confirmed; preview is available at `http://localhost:3000`.
+
+## 2026-10-02 — Project README
 
 - Replaced the create-next-app starter README with documentation matching the current implementation: local npm setup, Node requirement, public/server-only variable boundaries, migration order, Google OAuth redirects, US Mailgun setup and sandbox authorized recipients, routes, regression commands, and manual checks. The reserved Supabase secret key is explicitly not required by current runtime flows.
 - The live link is labelled Pending Vercel deployment, since no production URL has been verified. Adding the verified URL is now part of the deployment task. README documentation is Done under the approved plan.

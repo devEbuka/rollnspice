@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { safeReturnPath } from "@/lib/auth/return-path";
+import AccountDropdown from "./AccountDropdown";
 
 export default function AuthControls({ user, returnTo }) {
   const router = useRouter();
@@ -46,10 +47,10 @@ export default function AuthControls({ user, returnTo }) {
 
   return (
     <div className="flex flex-wrap items-center justify-end gap-2">
-      {user && <span className="max-w-40 truncate" title={user.label}>{user.label}</span>}
-      <button type="button" onClick={handleAuth} disabled={busy} className="rounded-[3px] border border-line px-3 py-2 font-semibold text-ink disabled:opacity-60">
-        {busy ? "Please wait…" : user ? "Sign out" : "Sign in with Google"}
-      </button>
+      {user ? <AccountDropdown user={user} busy={busy} onSignOut={handleAuth} /> : <button type="button" onClick={handleAuth} disabled={busy} className="auth-button">
+        <span aria-hidden="true" className="google-mark">G</span>
+        {busy ? "Please wait…" : "Sign in with Google"}
+      </button>}
       {error && <p role="alert" className="w-full text-sm text-spice">{error}</p>}
     </div>
   );

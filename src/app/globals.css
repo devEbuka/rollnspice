@@ -1,15 +1,16 @@
 @import "tailwindcss";
+@import "./brand.css";
 
 :root {
-  /* Provisional warm palette; layout follows docs/mockup.html. */
-  --background: #f1e9dc;
-  --foreground: #2a2118;
-  --panel: #ffffff;
-  --panel-hover: #faf5ec;
-  --spice: #a44124;
-  --leaf: #5c6b47;
-  --muted: #695b4b;
-  --line: rgba(42, 33, 24, 0.12);
+  /* Approved street-food palette; orange text/buttons meet contrast targets. */
+  --background: #fff3de;
+  --foreground: #211e1a;
+  --panel: #fff8eb;
+  --panel-hover: #ffefd8;
+  --spice: #c93910;
+  --leaf: #d2e344;
+  --muted: #665a4b;
+  --line: rgba(33, 30, 26, 0.22);
 }
 
 @theme inline {
@@ -22,7 +23,7 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --font-sans: var(--font-inter);
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-anton);
 }
 
 html { scroll-padding-top: 0; }
@@ -34,6 +35,16 @@ body {
 }
 
 :focus-visible { outline: 2px solid var(--foreground); outline-offset: 4px; }
+button:not(:disabled), summary, a { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+button, summary, a.primary-button, a.bg-spice, a.bg-ink {
+  transition: filter 120ms ease, box-shadow 120ms ease;
+}
+button:not(:disabled):active, summary:active,
+a.primary-button:active, a.bg-spice:active, a.bg-ink:active {
+  filter: brightness(.85);
+  box-shadow: inset 0 0 0 2px currentColor;
+}
 main, section[id] { scroll-margin-top: 180px; }
 textarea { scroll-margin-block: 180px 24px; }
 @media (max-width: 560px) {

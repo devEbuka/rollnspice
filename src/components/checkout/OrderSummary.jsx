@@ -2,7 +2,7 @@ import { formatPrice } from "@/lib/format";
 
 export default function OrderSummary({ items, subtotal }) {
   return (
-    <section aria-labelledby="order-summary-title" className="rounded-[3px] border border-line bg-panel p-6">
+    <section aria-labelledby="order-summary-title" className="rounded-xl border border-line bg-panel p-6">
       <h2 id="order-summary-title" className="mb-4 font-display text-2xl">Order summary</h2>
       <ul className="divide-y divide-line">
         {items.map((item) => (

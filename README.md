@@ -122,6 +122,6 @@ For a manual smoke check, add menu items, change quantities, refresh to check pe
 
 [AGENTS.md](AGENTS.md) contains project rules; [TASKS.md](TASKS.md) tracks progress. Layout guidance is in [docs/DESIGN.md](docs/DESIGN.md) and [docs/mockup.html](docs/mockup.html); implementation decisions are in [docs/decisions.md](docs/decisions.md).
 
-The palette remains provisional. There is no payment collection, cancellation, reordering, or durable request idempotency. Following an ambiguous network failure, check history before submitting again. Historical prices are snapshots; product names reflect the current menu record.
+The street-food design follows the approved mockup in docs/approved-ui-mockup.png; generated food images are illustrative. There is no payment collection, cancellation, reordering, or durable request idempotency. Following an ambiguous network failure, check history before submitting again. Historical prices are snapshots; product names reflect the current menu record.
 
 Deployment is the next task. Vercel needs the same configured environment variables, Supabase production redirect configuration, and a redeployment after public environment variable changes. The live link above will be replaced with the verified production URL.

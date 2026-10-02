@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import { productImage } from "@/lib/product-images";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/format";
 
@@ -7,14 +9,14 @@ export default function CartRow({ item }) {
   const { changeQuantity, removeItem } = useCart();
   return (
     <li className="flex gap-3.5 border-b border-line py-4">
-      <div aria-hidden="true" className="size-14 shrink-0 rounded-[3px] bg-linear-to-br from-spice to-leaf" />
+      {productImage(item.name) && <Image src={productImage(item.name)} alt="" width={56} height={56} className="size-14 shrink-0 rounded-lg object-cover" />}
       <div className="min-w-0 flex-1">
         <h3 className="text-[15px] font-semibold">{item.name}</h3>
         <p className="text-xs text-muted">{formatPrice(item.price)} each</p>
         <div className="mt-2 flex items-center gap-2.5">
-          <button type="button" aria-label={item.quantity === 1 ? `Remove ${item.name} by decreasing quantity` : `Decrease ${item.name} quantity`} onClick={() => changeQuantity(item.id, -1)} className="size-9 rounded-[3px] border border-muted">−</button>
+          <button type="button" aria-label={item.quantity === 1 ? `Remove ${item.name} by decreasing quantity` : `Decrease ${item.name} quantity`} onClick={() => changeQuantity(item.id, -1)} className="size-9 rounded-lg border border-muted">−</button>
           <span className="min-w-4 text-center text-sm"><span className="sr-only">Quantity: </span>{item.quantity}</span>
-          <button type="button" aria-label={`Increase ${item.name} quantity`} onClick={() => changeQuantity(item.id, 1)} className="size-9 rounded-[3px] border border-muted">+</button>
+          <button type="button" aria-label={`Increase ${item.name} quantity`} onClick={() => changeQuantity(item.id, 1)} className="size-9 rounded-lg border border-muted">+</button>
         </div>
       </div>
       <div className="flex shrink-0 flex-col items-end gap-2">
