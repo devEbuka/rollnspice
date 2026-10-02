@@ -1,5 +1,12 @@
 # Decisions
 
+## 2026-10-02 — Production deployment verified
+
+- Vercel production deployment is live at https://rollnspice.vercel.app. README now records the verified URL and deployment setup; deployment is Done in TASKS.md.
+- The user corrected Supabase production auth URL settings after sign-in redirected to localhost, then confirmed Google sign-in works. The user also confirmed production checkout, confirmation email, order history, and sign-out all work. These are manual user verification results.
+- Runtime requires the two public Supabase variables and three server-only Mailgun variables; SUPABASE_SECRET_KEY remains unnecessary. Mailgun sandbox authorized-recipient restrictions still apply. No schema or application code changed.
+- npm run lint and npm run build passed. The initial sandboxed build was blocked by worker spawn EPERM; the permitted build completed successfully. No commit was made.
+
 ## 2026-10-02 — Approved street-food redesign
 
 - After the final refinements, the user said "I believe we're good now," accepting the finished design. Marked the redesign Done. This records design acceptance; it does not claim additional authenticated test results beyond those already recorded. Only task status and documentation changed; prior lint/build results apply. Preview was stopped at the user's request. No commit was made.

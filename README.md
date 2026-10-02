@@ -3,7 +3,7 @@
 A shawarma shop website built for the HNG internship Lesson 2 individual task.
 Browse the menu, keep a cart, sign in with Google, place an order, receive an email receipt, and view your order history.
 
-**Live site:** Pending Vercel deployment. The verified URL will be added after deployment.
+**Live site:** [rollnspice.vercel.app](https://rollnspice.vercel.app)
 
 ## Features and stack
 
@@ -124,4 +124,4 @@ For a manual smoke check, add menu items, change quantities, refresh to check pe
 
 The street-food design follows the approved mockup in docs/approved-ui-mockup.png; generated food images are illustrative. There is no payment collection, cancellation, reordering, or durable request idempotency. Following an ambiguous network failure, check history before submitting again. Historical prices are snapshots; product names reflect the current menu record.
 
-Deployment is the next task. Vercel needs the same configured environment variables, Supabase production redirect configuration, and a redeployment after public environment variable changes. The live link above will be replaced with the verified production URL.
+Deployed on Vercel with the two public Supabase variables and three server-only Mailgun variables. The current runtime does not require SUPABASE_SECRET_KEY. Supabase uses https://rollnspice.vercel.app as the production Site URL and allows the production app callback, including its return-path query. Redeploy after changing public environment variables. The user verified production Google sign-in, checkout, confirmation email, order history, and sign-out on 2026-10-02.
