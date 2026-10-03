@@ -2,9 +2,13 @@
 
 ## In progress
 
+
 ## Up next
+- [ ] Review and deploy the website shared-cart integration; mobile synchronization remains a separate task in C:/rollnspice-mobile.
 
 ## Done
+- [x] Website shared cart and atomic checkout (2026-10-03) — one-time guest merge, durable account-scoped requests, live revision/refetch, offline/reconnect, sign-out isolation and checkout replay recovery. Lint/build, 24 regression tests, local/live SQL tests and real two-session browser checks pass; temporary accounts/order/cart data removed. Prepared locally; production website deployment remains pending.
+- [x] Shared cart database foundation — owner RLS, restricted mutation role, snapshot/mutation RPCs, durable retry/merge receipts, revision conflicts, limits and Realtime revision publication; isolated/live rollback and concurrent-request tests, REST denial/exposure checks, lint/build pass. Website/mobile integration and shared checkout remain separate tasks.
 - [x] Show an updating quantity badge on the mobile cart icon — additions, stepper quantities, removal, 320px layout, desktop display, lint/build verified
 - [x] Move mobile cart beside account controls with an icon-only button — 320px layout, drawer focus restoration, desktop labels, lint/build verified
 - [x] Deploy to Vercel — https://rollnspice.vercel.app; user verified production sign-in, checkout, email, history, and sign-out; README updated; lint/build pass

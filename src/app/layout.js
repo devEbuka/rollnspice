@@ -1,6 +1,7 @@
 import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import CartDrawer from "@/components/cart/CartDrawer";
+import { CartConnection } from "@/hooks/useCart";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +25,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${inter.variable} ${anton.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}<CartDrawer /></body>
+      <body className="min-h-full flex flex-col"><CartConnection />{children}<CartDrawer /></body>
     </html>
   );
 }
