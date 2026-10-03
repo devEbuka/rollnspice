@@ -3,6 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function updateSession(request) {
   let response = NextResponse.next({ request });
+  // The orders handler verifies bearer tokens itself; never refresh unrelated cookies.
+  if (request.nextUrl.pathname === "/api/orders" && request.headers.has("authorization")) {
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
+  }
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,

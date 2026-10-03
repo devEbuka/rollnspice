@@ -24,7 +24,7 @@ Successful responses include `{revision, items, operation_id, adjustments, repla
 
 Persist an operation before sending it. Retry with the same UUID and identical payload/revision after an unknown network result. Replays return the original receipt with `replayed: true`; refetch get_cart to avoid presenting stale receipt contents/prices. Reusing a UUID with a different request returns CART_OPERATION_REUSED. Guest data must not be cleared until the merge is acknowledged. Receipts are retained indefinitely until a separately reviewed expiry/retry protocol exists.
 
-Errors: `CART_CONFLICT` (SQLSTATE 40001) includes the fresh snapshot in details; `CART_REVISION_REQUIRED`, `INVALID_CART_OPERATION`, `INVALID_CART_ITEMS`, `DUPLICATE_CART_ITEMS`, `CART_ITEM_LIMIT`, `PRODUCT_UNAVAILABLE`, `CART_OPERATION_REUSED` use 22023; `AUTH_REQUIRED` uses 42501. A conflict should refresh and require review/retry of an absolute edit, not silently overwrite another device. All mutation failures roll back items/revision/receipt together.
+Errors: `CART_CONFLICT` (SQLSTATE PT409) includes the fresh snapshot in details; `CART_REVISION_REQUIRED`, `INVALID_CART_OPERATION`, `INVALID_CART_ITEMS`, `DUPLICATE_CART_ITEMS`, `CART_ITEM_LIMIT`, `PRODUCT_UNAVAILABLE`, `CART_OPERATION_REUSED` use 22023; `AUTH_REQUIRED` uses 42501. A conflict should refresh and require review/retry of an absolute edit, not silently overwrite another device. All mutation failures roll back items/revision/receipt together.
 
 Subscribe to owner-filtered changes in public.carts and then refetch get_cart. Reconnect/foreground refresh remains necessary. A catalogue deletion cascades cart lines and bumps affected revisions. Sign-out/account-switch handling, account-scoped pending queues, website integration and checkout transactions remain future client work.
 
@@ -43,3 +43,8 @@ Subscribe to owner-filtered changes in public.carts and then refetch get_cart. R
 - Shared checkout is required before enabling remote carts: order/items, cart clearing and the receipt are transactional. The browser saves a checkout ID/revision/instructions before submitting and reuses that payload after uncertain network failures or reload. Definitive 4xx rejections discard that uncommitted attempt; revision conflicts refresh the cart. New items never clear as a side effect of replaying an old order.
 - Email sending remains after the database commit. Replays skip it to prevent duplicate confirmation emails. This is not a durable email outbox: a server interruption before the original send may leave email unavailable; the saved order/history remains authoritative.
 - No application dependency, environment variable, mobile runtime code or production website deployment changed. This milestone implements the website; mobile synchronization is the next separate task. Google OAuth itself was previously verified by the user; these cart checks used isolated temporary Supabase password sessions, not another manual Google login.
+
+
+## Mobile order access (2026-10-03)
+
+See [order-api.md](order-api.md) for bearer-authenticated checkout and own-order history. Cart business conflicts now return PT409 (HTTP 409) to avoid PostgREST serialization retries; the CART_CONFLICT message and refresh/review behavior remain unchanged.

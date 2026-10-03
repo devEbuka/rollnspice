@@ -102,7 +102,7 @@ npm run start
 Run the order/email regression tests with:
 
 ```sh
-node --test src/lib/orders/validate.test.js src/lib/orders/route.test.mjs src/lib/orders/email-content.test.js src/lib/orders/confirmation.test.mjs
+node --test src/lib/orders/*.test.* src/lib/cart/*.test.* src/lib/supabase/*.test.*
 ```
 
 Database verification scripts live in `supabase/tests/`. They create temporary fixtures inside rollback transactions; review and run them through an administrative SQL connection against a test project.
@@ -118,10 +118,10 @@ For a manual smoke check, add menu items, change quantities, refresh to check pe
 | `/checkout` | Authenticated checkout |
 | `/orders` | Authenticated order history |
 | `/auth/callback` | OAuth session exchange |
-| `/api/orders` | POST order creation and receipt sending |
+| `/api/orders` | POST shared-cart checkout/receipt; GET own-order history (cookies or mobile bearer token) |
 
 [AGENTS.md](AGENTS.md) contains project rules; [TASKS.md](TASKS.md) tracks progress. Layout guidance is in [docs/DESIGN.md](docs/DESIGN.md) and [docs/mockup.html](docs/mockup.html); implementation decisions are in [docs/decisions.md](docs/decisions.md).
 
-The street-food design follows the approved mockup in docs/approved-ui-mockup.png; generated food images are illustrative. There is no payment collection, cancellation, reordering, or durable request idempotency. Following an ambiguous network failure, check history before submitting again. Historical prices are snapshots; product names reflect the current menu record.
+The street-food design follows the approved mockup in docs/approved-ui-mockup.png; generated food images are illustrative. There is no payment collection, cancellation or reordering. Shared checkout uses durable operation receipts: retry ambiguous requests with the same saved operation ID/revision/instructions. Native clients must use this shared-cart contract; see [docs/order-api.md](docs/order-api.md). Historical prices are snapshots; product names reflect the current menu record.
 
 Deployed on Vercel with the two public Supabase variables and three server-only Mailgun variables. The current runtime does not require SUPABASE_SECRET_KEY. Supabase uses https://rollnspice.vercel.app as the production Site URL and allows the production app callback, including its return-path query. Redeploy after changing public environment variables. The user verified production Google sign-in, checkout, confirmation email, order history, and sign-out on 2026-10-02.

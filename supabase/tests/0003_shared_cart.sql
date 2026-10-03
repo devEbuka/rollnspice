@@ -37,7 +37,7 @@ begin
   exception when invalid_parameter_value then if sqlerrm<>'CART_OPERATION_REUSED' then raise; end if; end;
   begin
     perform public.mutate_cart(gen_random_uuid(),'set',lines,0); raise exception 'Stale set accepted';
-  exception when serialization_failure then if sqlerrm<>'CART_CONFLICT' then raise; end if; end;
+  exception when sqlstate 'PT409' then if sqlerrm<>'CART_CONFLICT' then raise; end if; end;
   begin
     perform public.mutate_cart(gen_random_uuid(),'remove',jsonb_build_array(jsonb_build_object('product_id',current_setting('test.product'),'quantity',0)));
     raise exception 'Missing revision accepted';

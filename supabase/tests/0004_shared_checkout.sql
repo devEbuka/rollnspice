@@ -10,7 +10,7 @@ begin
   begin
     perform public.checkout_cart('a2000000-0000-0000-0000-000000000002',0,null);
     raise exception 'stale checkout accepted';
-  exception when serialization_failure then null; end;
+  exception when sqlstate 'PT409' then null; end;
   if (select count(*) from public.orders)<>0 then raise exception 'conflict wrote order'; end if;
   placed := public.checkout_cart('a2000000-0000-0000-0000-000000000002',(c->>'revision')::bigint,'no onions');
   oid := (placed->'order'->>'id')::uuid;

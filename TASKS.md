@@ -1,13 +1,13 @@
 # TASKS.md
 
 ## In progress
-
-
 ## Up next
-- [ ] Review and deploy the website shared-cart integration; mobile synchronization remains a separate task in C:/rollnspice-mobile.
+- [ ] Commit/push and deploy the authenticated mobile order API.
+- [ ] Implement mobile checkout and order history in C:/rollnspice-mobile after deploying the mobile order API.
 
 ## Done
-- [x] Website shared cart and atomic checkout (2026-10-03) — one-time guest merge, durable account-scoped requests, live revision/refetch, offline/reconnect, sign-out isolation and checkout replay recovery. Lint/build, 24 regression tests, local/live SQL tests and real two-session browser checks pass; temporary accounts/order/cart data removed. Prepared locally; production website deployment remains pending.
+- [x] Authenticated mobile order API (2026-10-03): bearer-token verification with owner RLS, preserved cookie login, retry-safe mobile checkout and paginated own-order history. Website lint/build, 31 regression tests, real compiled HTTP/Supabase checks and local/live SQL suites pass; mobile lint/typecheck pass. Fixed shared-cart business conflicts to PT409 to prevent PostgREST retry loops. Temporary users/orders/cart records removed; six products and seven original orders preserved. Website changes await commit/push/deployment.
+- [x] Website shared cart and atomic checkout (2026-10-03) — one-time guest merge, durable account-scoped requests, live revision/refetch, offline/reconnect, sign-out isolation and checkout replay recovery. Lint/build, 24 regression tests, local/live SQL tests and real two-session browser checks pass; temporary accounts/order/cart data removed. User confirmed production deployment; mobile shared-cart synchronization is also user-verified on Android.
 - [x] Shared cart database foundation — owner RLS, restricted mutation role, snapshot/mutation RPCs, durable retry/merge receipts, revision conflicts, limits and Realtime revision publication; isolated/live rollback and concurrent-request tests, REST denial/exposure checks, lint/build pass. Website/mobile integration and shared checkout remain separate tasks.
 - [x] Show an updating quantity badge on the mobile cart icon — additions, stepper quantities, removal, 320px layout, desktop display, lint/build verified
 - [x] Move mobile cart beside account controls with an icon-only button — 320px layout, drawer focus restoration, desktop labels, lint/build verified
